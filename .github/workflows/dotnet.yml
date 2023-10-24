@@ -2,9 +2,9 @@ name: .NET
 
 on:
   push:
-    branches: [ master, dev, ravencoin-rollback ]
+    branches: [master, dev, ravencoin-rollback]
   pull_request:
-    branches: [ master, dev, ravencoin-rollback ]
+    branches: [master, dev, ravencoin-rollback]
 
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [debian-latest, ubuntu-latest]
+        os: [debian-11, ubuntu-latest]
 
     steps:
     - name: Checkout
@@ -21,7 +21,15 @@ jobs:
       with:
         fetch-depth: 0    
     - name: Install Build dependencies
-      run: sudo apt-get install -y cmake build-essential libssl-dev pkg-config libboost-all-dev libsodium-dev libzmq5
+      run: |
+        if [ ${{ matrix.os }} == 'debian-11' ]; then
+          sudo apt-get install -y cmake build-essential libssl-dev pkg-config libboost-all-dev libsodium-dev libzmq5
+        fi
+        if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
+          # Install the required dependencies for Ubuntu
+          # Modify this section as needed for Ubuntu dependencies
+          sudo apt-get install -y your-ubuntu-dependencies-here
+        fi
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
