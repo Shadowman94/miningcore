@@ -1,4 +1,4 @@
-name: .NET Build
+name: .NET Build and Test
 
 on:
   push:
@@ -8,45 +8,49 @@ on:
 
 jobs:
   ubuntu-build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0    
-    - name: Install Build dependencies
-      run: sudo apt-get install -y cmake build-essential libssl-dev pkg-config libboost-all-dev libsodium-dev libzmq5
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
+        fetch-depth: 0
+    - name: Install Build Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake build-essential libssl-dev pkg-config libboost-all-dev libsodium-dev libzmq5
+      shell: bash
+    - name: Setup .NET SDK
+      run: |
+        sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-bullseye-prod bullseye main" > /etc/apt/sources.list.d/microsoft-prod.list'
+        sudo apt-get update
+        sudo apt-get install -y dotnet-sdk
+      shell: bash
+    - name: Restore Dependencies
       run: dotnet restore src
-    - name: Build
+    - name: Build Project
       run: dotnet build --no-restore src
-    - name: Test
+    - name: Run Tests
       run: dotnet test --logger:"console;verbosity=detailed" --no-build --verbosity normal src
 
   windows-build:
-
     runs-on: windows-latest
-
     steps:
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0    
-    - name: Install Build dependencies
+        fetch-depth: 0
+    - name: Install Build Dependencies
       run: |
         choco install -y visualstudio2019buildtools
-        choco install -y dotnet6.0
-    - name: Setup .NET
+        choco install -y dotnet6-sdk --version latest
+      shell: powershell
+    - name: Verify .NET SDK Version
       run: dotnet --version
-    - name: Restore dependencies
+      shell: powershell
+    - name: Restore Dependencies
       run: dotnet restore src
-    - name: Build
+    - name: Build Project
       run: dotnet build --no-restore src
-    - name: Test
+    - name: Run Tests
       run: dotnet test --logger:"console;verbosity=detailed" --no-build --verbosity normal src
+      shell: powershell
