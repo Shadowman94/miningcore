@@ -82,7 +82,7 @@
         <PackageReference Include="prometheus-net" Version="7.0.0" />
         <PackageReference Include="protobuf-net" Version="3.2.26" />
         <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
-        <PackageReference Include="System.Reactive" Version="5.0.0" />
+        <PackageReference Include="System.Reactive" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
