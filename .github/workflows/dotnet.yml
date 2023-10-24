@@ -1,56 +1,30 @@
-name: .NET Build and Test
+name: .NET
 
 on:
   push:
-    branches: [master, dev, ravencoin-rollback]
+    branches: [ master, dev, ravencoin-rollback ]
   pull_request:
-    branches: [master, dev, ravencoin-rollback]
+    branches: [ master, dev, ravencoin-rollback ]
 
 jobs:
-  ubuntu-build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Install Build Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y cmake build-essential libssl-dev pkg-config libboost-all-dev libsodium-dev libzmq5
-      shell: bash
-    - name: Setup .NET SDK
-      run: |
-        sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-bullseye-prod bullseye main" > /etc/apt/sources.list.d/microsoft-prod.list'
-        sudo apt-get update
-        sudo apt-get install -y dotnet-sdk
-      shell: bash
-    - name: Restore Dependencies
-      run: dotnet restore src
-    - name: Build Project
-      run: dotnet build --no-restore src
-    - name: Run Tests
-      run: dotnet test --logger:"console;verbosity=detailed" --no-build --verbosity normal src
+  build:
 
-  windows-build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest 
+
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0
-    - name: Install Build Dependencies
-      run: |
-        choco install -y visualstudio2019buildtools
-        choco install -y dotnet6-sdk --version latest
-      shell: powershell
-    - name: Verify .NET SDK Version
-      run: dotnet --version
-      shell: powershell
-    - name: Restore Dependencies
+        fetch-depth: 0    
+    - name: Install Build dependencies
+      run: sudo apt-get install -y cmake build-essential libssl-dev pkg-config libboost-all-dev libsodium-dev libzmq5
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: latest # Hier wird die neueste Version von .NET verwendet
+    - name: Restore dependencies
       run: dotnet restore src
-    - name: Build Project
+    - name: Build
       run: dotnet build --no-restore src
-    - name: Run Tests
+    - name: Test
       run: dotnet test --logger:"console;verbosity=detailed" --no-build --verbosity normal src
-      shell: powershell
