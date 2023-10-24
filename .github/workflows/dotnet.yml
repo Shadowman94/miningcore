@@ -1,4 +1,4 @@
-name: .NET Windows Build
+name: .NET Build
 
 on:
   push:
@@ -7,9 +7,31 @@ on:
     branches: [master, dev, ravencoin-rollback]
 
 jobs:
-  build:
+  ubuntu-build:
 
-    runs-on: windows-latest  # Verwenden Sie 'windows-latest' für Windows-Umgebung
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0    
+    - name: Install Build dependencies
+      run: sudo apt-get install -y cmake build-essential libssl-dev pkg-config libboost-all-dev libsodium-dev libzmq5
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore src
+    - name: Build
+      run: dotnet build --no-restore src
+    - name: Test
+      run: dotnet test --logger:"console;verbosity=detailed" --no-build --verbosity normal src
+
+  windows-build:
+
+    runs-on: windows-latest
 
     steps:
     - name: Checkout
@@ -21,7 +43,7 @@ jobs:
         choco install -y visualstudio2019buildtools
         choco install -y dotnet6.0
     - name: Setup .NET
-      run: dotnet --version  # Überprüfen Sie die .NET-Version
+      run: dotnet --version
     - name: Restore dependencies
       run: dotnet restore src
     - name: Build
