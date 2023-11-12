@@ -4,9 +4,7 @@ using System.Reactive.Threading.Tasks;
 using Autofac;
 using AutoMapper;
 using Microsoft.IO;
-using Miningcore.Blockchain.Ethereum.Configuration;
 using Miningcore.Configuration;
-using Miningcore.Extensions;
 using Miningcore.JsonRpc;
 using Miningcore.Messaging;
 using Miningcore.Mining;
@@ -39,7 +37,6 @@ public class EthereumPool : PoolBase
 
     private EthereumJobManager manager;
     private EthereumCoinTemplate coin;
-	private EthereumPoolConfigExtra extraPoolConfig;
 
     #region // Protocol V2 handlers - https://github.com/nicehash/Specifications/blob/master/EthereumStratum_NiceHash_v1.0.0.txt
 
@@ -364,7 +361,6 @@ public class EthereumPool : PoolBase
     public override void Configure(PoolConfig pc, ClusterConfig cc)
     {
         coin = pc.Template.As<EthereumCoinTemplate>();
-		extraPoolConfig = pc.Extra.SafeExtensionDataAs<EthereumPoolConfigExtra>();
 
         base.Configure(pc, cc);
     }
@@ -499,35 +495,15 @@ public class EthereumPool : PoolBase
                     break;
 
                 case EthereumStratumMethods.GetWork:
-                    if(!extraPoolConfig.enableEthashStratumV1)
-                    {
-                        logger.Info(() => $"[{connection.ConnectionId}] Unsupported RPC request: {JsonConvert.SerializeObject(request, serializerSettings)}");
+                    EnsureProtocolVersion(context, 1);
 
-                        await connection.RespondErrorAsync(StratumError.Other, $"Unsupported request {request.Method}", request.Id);
-                    }
-                    else
-                    {
-                        EnsureProtocolVersion(context, 1);
-
-                        logger.Warn(() => $"Use of Ethash Stratum V1 method: {request.Method}");
-                        await OnGetWorkAsync(connection, tsRequest);
-                    }
+                    await OnGetWorkAsync(connection, tsRequest);
                     break;
 
                 case EthereumStratumMethods.SubmitWork:
-                    if(!extraPoolConfig.enableEthashStratumV1)
-                    {
-                        logger.Info(() => $"[{connection.ConnectionId}] Unsupported RPC request: {JsonConvert.SerializeObject(request, serializerSettings)}");
+                    EnsureProtocolVersion(context, 1);
 
-                        await connection.RespondErrorAsync(StratumError.Other, $"Unsupported request {request.Method}", request.Id);
-                    }
-                    else
-                    {
-                        EnsureProtocolVersion(context, 1);
-
-                        logger.Warn(() => $"Use of Ethash Stratum V1 method: {request.Method}");
-                        await OnSubmitAsync(connection, tsRequest, ct, true);
-                    }
+                    await OnSubmitAsync(connection, tsRequest, ct, true);
                     break;
 
                 case EthereumStratumMethods.SubmitHashrate:
