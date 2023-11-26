@@ -468,7 +468,7 @@ public class BitcoinJob
 
     protected virtual Money CreateMasternodeOutputs(Transaction tx, Money reward)
     {
-        if(masterNodeParameters.Masternode != null && masterNodeParameters.MasternodePaymentsStarted && masterNodeParameters.MasternodePaymentsEnforced)
+        if(masterNodeParameters.Masternode != null)
         {
             Masternode[] masternodes;
 
@@ -618,7 +618,6 @@ public class BitcoinJob
         if(BlockTemplate.CommunityAutonomousAddress != null && BlockTemplate.CommunityAutonomousValue > 0)
         {
         	var payeeReward = BlockTemplate.CommunityAutonomousValue;
-        	reward -= payeeReward;
         	var payeeAddress = BitcoinUtils.AddressToDestination(BlockTemplate.CommunityAutonomousAddress, network);
         	tx.Outputs.Add(payeeReward, payeeAddress);
         }
