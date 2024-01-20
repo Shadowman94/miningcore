@@ -108,6 +108,26 @@ extern "C" MODULE_API void sha3_512_export(const char *input, char *output, uint
 	sha3(input, input_len, output, 64);
 }
 
+extern "C" MODULE_API void cshake128_export(const unsigned char* input, uint32_t input_len, const char* name, uint32_t name_len, const char* custom, uint32_t custom_len, unsigned char* output, uint32_t output_len)
+{
+    cshakeCompute(128, input, input_len, name_len == 0 ? NULL : name, name_len, custom_len == 0 ? NULL : custom, custom_len, output, output_len);
+}
+
+extern "C" MODULE_API void cshake256_export(const unsigned char* input, uint32_t input_len, const char* name, uint32_t name_len, const char* custom, uint32_t custom_len, unsigned char* output, uint32_t output_len)
+{
+    cshakeCompute(256, input, input_len, name_len == 0 ? NULL : name, name_len, custom_len == 0 ? NULL : custom, custom_len, output, output_len);
+}
+
+extern "C" MODULE_API void shake128_export(const unsigned char* input, uint32_t input_len, unsigned char* output, uint32_t output_len)
+{
+    shakeCompute(128, input, input_len, output, output_len);
+}
+
+extern "C" MODULE_API void shake256_export(const unsigned char* input, uint32_t input_len, unsigned char* output, uint32_t output_len)
+{
+    shakeCompute(256, input, input_len, output, output_len);
+}
+
 extern "C" MODULE_API void hmq17_export(const char *input, char *output, uint32_t input_len)
 {
 	hmq17_hash(input, output, input_len);
