@@ -34,6 +34,9 @@ public enum CoinFamily
     [EnumMember(Value = "ethereum")]
     Ethereum,
 
+    [EnumMember(Value = "kaspa")]
+    Kaspa,
+
     [EnumMember(Value = "ergo")]
     Ergo,
 
@@ -152,6 +155,7 @@ public abstract partial class CoinTemplate
         {CoinFamily.Conceal, typeof(ConcealCoinTemplate)},
         {CoinFamily.Cryptonote, typeof(CryptonoteCoinTemplate)},
         {CoinFamily.Ethereum, typeof(EthereumCoinTemplate)},
+        {CoinFamily.Kaspa, typeof(KaspaCoinTemplate)},
         {CoinFamily.Ergo, typeof(ErgoCoinTemplate)},
         {CoinFamily.Progpow, typeof(ProgpowTemplate)},
         {CoinFamily.Nexa, typeof(BitcoinTemplate)},
@@ -639,6 +643,10 @@ public partial class EthereumCoinTemplate : CoinTemplate
     /// Which hashing algorithm to use. (ethash, etchash or ubqhash)
     /// </summary>
     public string Ethasher { get; set; } = "ethash";
+}
+
+public partial class KaspaCoinTemplate : CoinTemplate
+{
 }
 
 public partial class ErgoCoinTemplate : CoinTemplate

@@ -6353,5 +6353,47 @@
         "explorerBlockLink": "https://explorer.ergoplatform.com/en/blocks/$hash$",
         "explorerTxLink": "https://explorer.ergoplatform.com/en/transactions/{0}",
         "explorerAccountLink": "https://explorer.ergoplatform.com/en/addresses/{0}"
+    },
+    "kaspa": {
+        "name": "Kaspa",
+        "canonicalName": "Kaspa",
+        "symbol": "KAS",
+        "family": "kaspa",
+        "website": "https://kaspa.org/",
+        "market": "https://coinmarketcap.com/currencies/kaspa/",
+        "twitter": "https://twitter.com/KaspaCurrency",
+        "telegram": "https://t.me/Kaspaenglish",
+        "discord": "https://discord.gg/kS3SK5F36R",
+        "explorerBlockLink": "https://explorer.kaspa.org/blocks/$hash$",
+        "explorerTxLink": "https://explorer.kaspa.org/txs/{0}",
+        "explorerAccountLink": "https://explorer.kaspa.org/addresses/{0}"
+    },
+    "karlsencoin": {
+        "name": "Karlsencoin",
+        "canonicalName": "Karlsencoin",
+        "symbol": "KLS",
+        "family": "kaspa",
+        "website": "https://karlsencoin.com/",
+        "market": "",
+        "twitter": "https://twitter.com/karlsennetwork",
+        "telegram": "https://t.me/KarlsenNetwork",
+        "discord": "https://discord.com/invite/NasfjsEm",
+        "explorerBlockLink": "https://explorer.karlsencoin.com/blocks/$hash$",
+        "explorerTxLink": "https://explorer.karlsencoin.com/txs/{0}",
+        "explorerAccountLink": "https://explorer.karlsencoin.com/addresses/{0}"
+    },
+    "pyrin": {
+        "name": "Pyrin",
+        "canonicalName": "Pyrin",
+        "symbol": "PYI",
+        "family": "kaspa",
+        "website": "https://pyrin.network/",
+        "market": "",
+        "twitter": "https://twitter.com/pyrin_network",
+        "telegram": "https://t.me/pyrin_network",
+        "discord": "https://discord.gg/QQgWRntF",
+        "explorerBlockLink": "https://explorer.pyrin.network/blocks/$hash$",
+        "explorerTxLink": "https://explorer.pyrin.network/txs/{0}",
+        "explorerAccountLink": "https://explorer.pyrin.network/addresses/{0}"
     }
 }

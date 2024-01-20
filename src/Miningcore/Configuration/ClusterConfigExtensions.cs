@@ -224,6 +224,27 @@ public partial class EthereumCoinTemplate
     #endregion
 }
 
+public partial class KaspaCoinTemplate
+{
+    #region Overrides of CoinTemplate
+
+    public override string GetAlgorithmName()
+    {
+        switch(Symbol)
+        {
+            case "KLS":
+                return "Karlsenhash";
+            case "PYI":
+                return "Pyrinhash";
+            default:
+                // TODO: return variant
+                return "kHeavyHash";
+        }
+    }
+
+    #endregion
+}
+
 public partial class ErgoCoinTemplate
 {
     #region Overrides of CoinTemplate

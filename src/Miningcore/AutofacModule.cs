@@ -9,6 +9,7 @@ using Miningcore.Blockchain.Cryptonote;
 using Miningcore.Blockchain.Equihash;
 using Miningcore.Blockchain.Ergo;
 using Miningcore.Blockchain.Ethereum;
+using Miningcore.Blockchain.Kaspa;
 using Miningcore.Blockchain.Nexa;
 using Miningcore.Blockchain.Progpow;
 using Miningcore.Configuration;
@@ -184,6 +185,11 @@ public class AutofacModule : Module
         // Ethereum
 
         builder.RegisterType<EthereumJobManager>();
+
+        //////////////////////
+        // Kaspa
+
+        builder.RegisterType<KaspaJobManager>();
 
         //////////////////////
         // ZCash
